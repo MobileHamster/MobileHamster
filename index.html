@@ -1,0 +1,114 @@
+<html>
+	<head>
+		<meta name="viewport" content="user-scalable=no,width=device-width" />
+		<link rel="stylesheet" href="http://code.jquery.com/mobile/1.0/jquery.mobile-1.0.min.css" />
+		<link rel="stylesheet" href="./client/mobileHamster.css" />
+		<script src="http://code.jquery.com/jquery-1.6.min.js"></script>
+		<script src="http://code.jquery.com/mobile/1.0/jquery.mobile-1.0.min.js"></script>
+		<script src="./client/jquery.nano.js"></script>
+		<script src="./client/client.js"></script>
+	</head>
+
+	<body>
+		<!--
+		main page
+		-->
+		<div data-role="page" id="start" data-dom-cache="true">
+			<div data-role="header">
+				<h1>Mobile Hamster</h1>
+			</div>
+
+			<div data-role="content">
+
+				<ul data-role=listview>
+					<li id="msgs" >
+						Please log in first
+					</li>
+					<li>
+						<a href="#friends">Friends</a>
+					</li>
+					<li>
+						<a href="#favorites">Favorites</a>
+					</li>
+					<li>
+						<a href="#invites">Invites</a>
+					</li>
+					<li>
+						<a href="">Log Out</a>
+					</li>
+				</ul>
+			</div>
+			<div data-role="footer">
+				<h1 class="footer"></h1>
+			</div>
+		</div>
+		<!--
+		login dialog
+		-->
+		<div data-role="page" id="login" data-dom-cache="true" data-add-back-btn="false">
+			<div data-role="header">
+				<h1>Log In</h1>
+			</div>
+			<div data-role="content">
+				<form action="" method="post">
+					<label for="username">Username:</label>
+					<input type="text" name="user" id="username" value="" placeholder="Username"/>
+					<label for="password">Password:</label>
+					<input type="password" name="pwd" id="password" value="" placeholder="Password"/>
+					<button id="loginSubmit">
+						Submit
+					</button>
+				</form>
+			</div>
+			<div data-role="footer">
+				<h1 class="footer"></h1>
+			</div>
+		</div>
+		<!--
+		friends
+		-->
+		<div data-role="page" id="friends" data-dom-cache="true" data-add-back-btn="true">
+			<div data-role="header">
+				<h1>Friends</h1>
+			</div>
+
+			<div data-role="content">
+				<ul id="friendsList" data-role="listview" ></ul>
+			</div>
+			<div data-role="footer">
+				<h1 class="footer"></h1>
+			</div>
+
+		</div>
+		<!--
+		favorites
+		-->
+		<div data-role="page" id="favorites" data-dom-cache="true" data-add-back-btn="true">
+			<div data-role="header">
+				<h1>Favorites</h1>
+			</div>
+
+			<div data-role="content">
+				<ul id="favoritesList" data-role="listview" ></ul>
+			</div>
+			<div data-role="footer">
+				<h1 class="footer"></h1>
+			</div>
+		</div>
+		<!--
+		invites
+		-->
+		<div data-role="page" id="invites" data-dom-cache="true" data-add-back-btn="true">
+			<div data-role="header">
+				<h1>Invites</h1>
+			</div>
+
+			<div data-role="content">
+				<ul id="invitesList" data-role="listview"></ul>
+			</div>
+			<div data-role="footer">
+				<h1 class="footer"></h1>
+			</div>
+		</div>
+	</body>
+</html>

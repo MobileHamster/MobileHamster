@@ -1,0 +1,11 @@
+.contactGender {
+	vertical-align: middle;
+	margin-right: 5px;
+}
+.contactCountry {
+	vertical-align: middle;
+	margin-right: 5px;
+}
+.userOnline {
+	color: green;	
+}
