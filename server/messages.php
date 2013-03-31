@@ -1,8 +1,10 @@
 <?php
 include './utils/jsonPrettyPrint.php';
 
-$user = $_GET["user"];
-$ckfile = "/tmp/" . $user . ".cookie";
+$id=$_GET["id"];
+$ckfile = "/tmp/".$id.".cookie";
+
+$debug=$_GET["debug"];
 
 $contacts = array();
 
@@ -62,6 +64,7 @@ do {
 	}
 } while ($arts->length > 0);
 
-echo "<pre>";
+if($debug=="on")
+	echo "<pre>";
 echo jsonpp(json_encode($contacts));
 ?>

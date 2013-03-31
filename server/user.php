@@ -1,6 +1,8 @@
 <?php
 include './utils/jsonPrettyPrint.php';
 
+$debug=$_GET["debug"];
+
 $user = $_GET["user"];
 $id = $_GET["id"];
 $ckfile = "/tmp/" . $id . ".cookie";
@@ -35,18 +37,28 @@ $keys = $xpath -> query("//td[@align='right']/b");
 $stats = array();
 foreach ($keys as $key) {
 	$values = $xpath -> query("../../td[@align='center']", $key);
-	$stats[$key -> nodeValue] = trim($values -> item(0) -> nodeValue);
+	$k = $key -> nodeValue;
+	$k = str_replace(" ", "_", $k);
+	$k = str_replace(":", "", $k);
+	$stats[$k] = trim($values -> item(0) -> nodeValue);
 }
 $userData["stats"] = $stats;
 
 $keys = $xpath -> query("//span[@class='label']");
 $information = array();
+$i = 0;
 foreach ($keys as $key) {
 	$values = $xpath -> query("../../td", $key);
-	$information[$key -> nodeValue] = $values -> item(1) -> nodeValue;
+	$information[$i] = array (
+		"key" => $key -> nodeValue,
+		"value" => $values -> item(1) -> nodeValue
+	);
+	$i++;
 }
 $userData["info"] = $information;
 
+if($debug=="on")
+	echo "<pre>";
 
 echo jsonpp(json_encode($userData));
 ?>
