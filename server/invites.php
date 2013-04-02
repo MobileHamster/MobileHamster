@@ -1,9 +1,10 @@
 <?php
 include './utils/jsonPrettyPrint.php';
 
+$debug = $_GET["debug"];
+
 $id = $_GET["id"];
 $ckfile = "/tmp/" . $id . ".cookie";
-
 
 $contacts = array();
 
@@ -52,17 +53,18 @@ do {
 
 		$links = $xpath -> query(".//div[contains(@class,'iconOnline')]", $art);
 		$contact["online"] = ($links -> item(0) -> nodeValue === 'online');
-		
+
 		$links = $xpath -> query(".//input[@class='user_ctrl_btn']/@onclick", $art);
-		$code = preg_replace("/controlInvite\((\d+), 'accept'\); return false;/", "$1", $links->item(0)->nodeValue);
-		$contact["acceptInvite"] = "http://xhamster.com/ajax/invites_control.php?response=accept&uid=".$code;
-		$contact["declineInvite"] = "http://xhamster.com/ajax/invites_control.php?response=decline&uid=".$code;
-		
-		//controlInvite(4850651, 'accept'); return false;
+		$code = preg_replace("/controlInvite\((\d+), 'accept'\); return false;/", "$1", $links -> item(0) -> nodeValue);
+		$contact["uid"] = $code;
+//		$contact["acceptInvite"] = "http://xhamster.com/ajax/invites_control.php?response=accept&uid=" . $code;
+//		$contact["declineInvite"] = "http://xhamster.com/ajax/invites_control.php?response=decline&uid=" . $code;
 
 		$contacts[] = $contact;
 	}
 } while ($arts->length > 0);
 
+if ($debug == "on")
+	echo "<pre>";
 echo jsonpp(json_encode($contacts));
 ?>
