@@ -25,8 +25,9 @@ if($message_count==NULL)
 	$message_count=0;
 	
 $arts = $xpath->query("//a[@id='invites_link']");
-$invite_count = intval($arts->item(0)->nodeValue);
-if($invite_count==NULL)
+if($arts->length > 0)
+	$invite_count = intval($arts->item(0)->nodeValue);
+else 
 	$invite_count=0;
 
 $result=array();

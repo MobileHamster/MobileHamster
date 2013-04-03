@@ -1,4 +1,7 @@
 <?php
+include './utils/jsonPrettyPrint.php';
+
+$debug = $_GET["debug"];
 
 $id = $_GET["id"];
 $ckfile = "/tmp/" . $id . ".cookie";
@@ -15,7 +18,7 @@ $doc = new DOMDocument();
 @$doc -> loadHTML($output);
 
 $xpath = new DOMXPath($doc);
-$arts = $xpath -> query("//td[@width='90px']");
+$arts = $xpath -> query("//div[@class='user ']");
 
 $contacts = array();
 foreach ($arts as $art) {
@@ -31,24 +34,26 @@ foreach ($arts as $art) {
 	$links = $xpath -> query(".//img/@src", $art);
 	$contact["pic"] = $links -> item(0) -> value;
 
-	$links = $xpath -> query(".//span[contains(@class,'iconSex')]/@title", $art);
+	$links = $xpath -> query(".//div[contains(@class,'iconGender')]/@hint", $art);
 	$contact["sex"] = $links -> item(0) -> nodeValue;
 
-	$links = $xpath -> query(".//span[contains(@class,'iconFlag')]/@title", $art);
+	$links = $xpath -> query(".//div[contains(@class,'iconCountry')]/@hint", $art);
 	$contact["flag"] = $links -> item(0) -> nodeValue;
 
-	$links = $xpath -> query(".//span[contains(@class,'iconFlag')]/img/@src", $art);
+	$links = $xpath -> query(".//div[contains(@class,'iconCountry')]/img/@src", $art);
 	$contact["flagIcon"] = $links -> item(0) -> nodeValue;
 	if ($contact["flagIcon"] == null) {
 		$contact["flagIcon"] = "";
 	}
 
-	$links = $xpath -> query(".//div[contains(@class,'iconOnline')]", $art);
+	$links = $xpath -> query(".//div[@class='online']/@class", $art);
 	$contact["online"] = ($links -> item(0) -> nodeValue === 'online');
 
 	$contacts[] = $contact;
 }
 
-echo json_encode($contacts);
+if($debug=="on")
+	echo "<pre>";
+echo jsonpp(json_encode($contacts));
 ?>
 

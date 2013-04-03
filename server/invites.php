@@ -26,11 +26,11 @@ do {
 	@$doc -> loadHTML($output);
 
 	$xpath = new DOMXPath($doc);
-	$arts = $xpath -> query("//td[@width='180px']");
+	$arts = $xpath -> query("//div[@uid]");
 
 	foreach ($arts as $art) {
 		$contact = array();
-		$links = $xpath -> query(".//a/@href", $art);
+		$links = $xpath -> query("./div[@class='user ']/a/@href", $art);
 		$contact["link"] = $links -> item(0) -> value;
 		$contact["messages"] = $links -> item(0) -> value . "/messages-1";
 
@@ -40,25 +40,22 @@ do {
 		$links = $xpath -> query(".//img/@src", $art);
 		$contact["pic"] = $links -> item(0) -> value;
 
-		$links = $xpath -> query(".//span[contains(@class,'iconSex')]/@title", $art);
+		$links = $xpath -> query(".//div[contains(@class,'iconGender')]/@hint", $art);
 		$contact["sex"] = $links -> item(0) -> nodeValue;
 
-		$links = $xpath -> query(".//span[contains(@class,'iconFlag')]/@title", $art);
+		$links = $xpath -> query(".//div[contains(@class,'iconCountry')]/@hint", $art);
 		$contact["flag"] = $links -> item(0) -> nodeValue;
 
-		$links = $xpath -> query(".//span[contains(@class,'iconFlag')]/img/@src", $art);
+		$links = $xpath -> query(".//div[@class='iconCountry']/img/@src", $art);
 		$contact["flagIcon"] = $links -> item(0) -> nodeValue;
 		if ($contact["flagIcon"] == null)
 			$contact["flagIcon"] = "";
 
-		$links = $xpath -> query(".//div[contains(@class,'iconOnline')]", $art);
+		$links = $xpath -> query(".//div[@class='online']/@class", $art);
 		$contact["online"] = ($links -> item(0) -> nodeValue === 'online');
 
-		$links = $xpath -> query(".//input[@class='user_ctrl_btn']/@onclick", $art);
-		$code = preg_replace("/controlInvite\((\d+), 'accept'\); return false;/", "$1", $links -> item(0) -> nodeValue);
-		$contact["uid"] = $code;
-//		$contact["acceptInvite"] = "http://xhamster.com/ajax/invites_control.php?response=accept&uid=" . $code;
-//		$contact["declineInvite"] = "http://xhamster.com/ajax/invites_control.php?response=decline&uid=" . $code;
+		$links = $xpath -> query("./@uid", $art);
+		$contact["uid"] = $links -> item(0) -> nodeValue;
 
 		$contacts[] = $contact;
 	}

@@ -23,20 +23,20 @@ $xpath = new DOMXPath($doc);
 $userData = array();
 $userData["name"] = $user;
 
-$arts = $xpath -> query("//span[@id='u_status']");
+$arts = $xpath -> query("//div[@class='status']");
 $userData["status"] = $arts -> item(0) -> nodeValue;
 
-$arts = $xpath -> query("//span[@class='u_status_time']");
+$arts = $xpath -> query("//div[@class='last']");
 $userData["statusTime"] = $arts -> item(0) -> nodeValue;
 
-$arts = $xpath -> query("//img[@id='avatarB']/@src");
+$arts = $xpath -> query("//td[@id='avatarB']//img/@src");
 $userData["avatar"] = $arts -> item(0) -> nodeValue;
 
 // extract profile stats that change often
-$keys = $xpath -> query("//td[@align='right']/b");
+$keys = $xpath -> query("//table[@class='breff']//td/span");
 $stats = array();
 foreach ($keys as $key) {
-	$values = $xpath -> query("../../td[@align='center']", $key);
+	$values = $xpath -> query("../../td[2]", $key);
 	$k = $key -> nodeValue;
 	$k = str_replace(" ", "_", $k);
 	$k = str_replace(":", "", $k);
@@ -44,7 +44,7 @@ foreach ($keys as $key) {
 }
 $userData["stats"] = $stats;
 
-$keys = $xpath -> query("//span[@class='label']");
+$keys = $xpath -> query("//table[@class='w100']//td/span");
 $information = array();
 $i = 0;
 foreach ($keys as $key) {
