@@ -1,12 +1,15 @@
 <?php
 
+$id = $_GET["id"];
+$ckfile = "/tmp/" . $id . ".cookie";
+
 $user=$_GET["user"];
-$ckfile = "/tmp/".$user.".cookie";
-$contact=$_GET["contact"];
 
 
 
-$ch = curl_init ("http://xhamster.com/user/".$contact."/messages-1");
+$ch = curl_init ("http://xhamster.com/user/".$user."/messages-1");
+var_dump("http://xhamster.com/user/".$user."/messages-1");
+
 curl_setopt($ch,CURLOPT_COOKIEJAR, $ckfile);
 curl_setopt($ch,CURLOPT_COOKIEFILE, $ckfile);
 curl_setopt($ch,CURLOPT_RETURNTRANSFER, true);
@@ -20,11 +23,14 @@ $doc = new DOMDocument();
 @$doc->loadHTML($output);
 
 $xpath = new DOMXPath($doc);
-$arts = $xpath->query("//td[@width='180px']");
+$arts = $xpath->query("//div[@id='pm_messages']");
 
 $contacts=array(); 
 foreach ($arts as $art)
 {
+	$links = $xpath->query("./div/div", $art);
+	var_dump($links);
+	/*
 	$contact = array();
 	$links = $xpath->query(".//a/@href", $art);
 	$contact["link"]= $links->item(0)->value;
@@ -51,6 +57,8 @@ foreach ($arts as $art)
 	$contact["online"]= ($links->item(0)->nodeValue==='online');
 	
 	$contacts[]=$contact;
+	 * 
+	 */
 }
 
 

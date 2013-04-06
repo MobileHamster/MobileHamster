@@ -20,9 +20,10 @@ $doc = new DOMDocument();
 $xpath = new DOMXPath($doc);
 $arts = $xpath->query("//a[@id='messages_link']");
 
-$message_count = intval($arts->item(0)->nodeValue);
-if($message_count==NULL)
-	$message_count=0;
+$message_count=0;
+if($arts->length >0 ) {
+	$message_count = intval($arts->item(0)->nodeValue);
+}
 	
 $arts = $xpath->query("//a[@id='invites_link']");
 if($arts->length > 0)

@@ -6,11 +6,18 @@ $debug = $_GET["debug"];
 $id = $_GET["id"];
 $ckfile = "/tmp/" . $id . ".cookie";
 
+if($debug=="on")
+	echo $ckfile;
+
 $ch = curl_init("http://xhamster.com/my_friends.php");
 curl_setopt($ch, CURLOPT_COOKIEJAR, $ckfile);
 curl_setopt($ch, CURLOPT_COOKIEFILE, $ckfile);
 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+
 $output = curl_exec($ch);
+
+if($debug=="on")
+	echo $output;
 
 $doc = new DOMDocument();
 
@@ -18,7 +25,7 @@ $doc = new DOMDocument();
 @$doc -> loadHTML($output);
 
 $xpath = new DOMXPath($doc);
-$arts = $xpath -> query("//div[@class='user ']");
+$arts = $xpath -> query("//div[contains(@class,'user ')]");
 
 $contacts = array();
 foreach ($arts as $art) {

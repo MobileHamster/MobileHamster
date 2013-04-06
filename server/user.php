@@ -48,10 +48,17 @@ $keys = $xpath -> query("//table[@class='w100']//td/span");
 $information = array();
 $i = 0;
 foreach ($keys as $key) {
-	$values = $xpath -> query("../../td", $key);
+	if($key->nodeValue=='About Me:') {
+		$values = $xpath -> query("../div", $key);
+		$val = nl2br($values -> item(0) -> nodeValue);
+		
+	} else {
+		$values = $xpath -> query("../../td[2]", $key);
+		$val = $values -> item(0) -> nodeValue;
+	}
 	$information[$i] = array (
 		"key" => $key -> nodeValue,
-		"value" => $values -> item(1) -> nodeValue
+		"value" => $val 
 	);
 	$i++;
 }
